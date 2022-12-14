@@ -179,14 +179,14 @@ if(!function_exists('_save')) {
     $current_year = date("Y");
     $current_month = date("m");;
     
-    $past_three_month = (($current_month - 3) > 1) ? ($current_month -3) : 1;
+    $past_three_month = date('Y-m-d H:i:s',strtotime('-3 month'));
     
     $api_base_request_URL = 'https://api.alchemer.com/v5/survey/1853973/surveyresponse?';
     
     // show only completed surveys
     $fixed_filter = 'filter[field][0]=status&filter[operator][0]==&filter[value][0]=Complete';
     // show only reviews from current year
-    $date_filter = 'filter[field][1]=date_submitted&filter[operator][1]=>=&filter[value][1]='.$current_year.'-'.$past_three_month.'-01+00:00:00';
+    $date_filter = 'filter[field][1]=date_submitted&filter[operator][1]=>=&filter[value][1]='.$past_three_month;
 
     $site_id = isset($_POST['site_id']) ? $_POST['site_id'] : get_option('site_id');
     $api_token = isset($_POST['api_token']) ? $_POST['api_token'] : get_option('api_token');

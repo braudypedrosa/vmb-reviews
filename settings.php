@@ -11,8 +11,6 @@ if(isset($_POST['save_and_fetch'])){
     
     _save();
 
-    echo REQUEST_URL;
-
     // start fetch
     _vmbreviews_get_all_reviews(get_option('page'), 0);
 
@@ -23,6 +21,8 @@ if(isset($_POST['save_and_fetch'])){
 if(isset($_POST['save_settings'])){
     
     _save();
+
+    echo REQUEST_URL;
 
     wp_redirect(admin_url("edit.php?post_type=vmb_reviews&page=settings&status=settings_saved"));
     exit();
