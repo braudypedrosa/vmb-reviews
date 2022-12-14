@@ -45,7 +45,7 @@ if( !function_exists('_get_all_reviews_func') ){
             'post_type' => VMB_POST_TYPE,
             'meta_key' => 'date_submitted',
             'orderby' => 'meta_value',
-            'posts_per_page' =>  get_option('reviews_to_display'),
+            'posts_per_page' =>  get_site_option('reviews_to_display'),
         );
 
         $rating_avg = 0;
@@ -74,7 +74,7 @@ if( !function_exists('_get_all_reviews_func') ){
 
         $classes = '';
 
-        switch(get_option('column_count')) {
+        switch(get_site_option('column_count')) {
             case 1: {
                 $classes .= $classes .'colc-1';
                 break;
@@ -97,7 +97,7 @@ if( !function_exists('_get_all_reviews_func') ){
     
         wp_reset_postdata();
         
-        return '<div class="vmb-reviews '.$classes.'" data-avgRating="'.$rating_avg.'"><div class="reviews-avg"><h3>'.get_option('reviews_to_display').' reviews in total</h3><div class="avgStars">'.$rating_avg / get_option('reviews_to_display').' out of 5<span>average rating</span></div></div><div class="reviews">'.$output.'</div></div>';
+        return '<div class="vmb-reviews '.$classes.'" data-avgRating="'.$rating_avg.'"><div class="reviews-avg"><h3>'.get_site_option('reviews_to_display').' reviews in total</h3><div class="avgStars">'.$rating_avg / get_site_option('reviews_to_display').' out of 5<span>average rating</span></div></div><div class="reviews">'.$output.'</div></div>';
     
     }
     add_shortcode( 'display_reviews', '_get_all_reviews_func' );
@@ -126,14 +126,14 @@ register_activation_hook(__FILE__, function(){
     add_site_option('_api_secret', '');
 
     // plugin defaults
-    update_option('renewal_date', date("Y-m-d H:i:s"));
-    update_option('reviews_to_fetch', 30);
-    update_option('ref_ren_interval', 24);
-    update_option('rating_to_fetch', 3);
-    update_option('reviews_to_display', 20);
-    update_option('column_count', 3);
-    update_option('total_pages', 1);
-    update_option('page', 1);
+    update_site_option('renewal_date', date("Y-m-d H:i:s"));
+    update_site_option('reviews_to_fetch', 30);
+    update_site_option('ref_ren_interval', 24);
+    update_site_option('rating_to_fetch', 3);
+    update_site_option('reviews_to_display', 20);
+    update_site_option('column_count', 3);
+    update_site_option('total_pages', 1);
+    update_site_option('page', 1);
 });
 
 // deactivation hook

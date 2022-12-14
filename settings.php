@@ -3,8 +3,8 @@
 include_once(VMB_REVIEWS_DIR.'functions.php');
 
 $err = "";
-$last_page = get_option('page');
-$total_pages = get_option('total_pages');
+$last_page = get_site_option('page');
+$total_pages = get_site_option('total_pages');
 
 
 if(isset($_POST['save_and_fetch'])){
@@ -12,7 +12,7 @@ if(isset($_POST['save_and_fetch'])){
     _save();
 
     // start fetch
-    _vmbreviews_get_all_reviews(get_option('page'), 0);
+    _vmbreviews_get_all_reviews(get_site_option('page'), 0);
 
     wp_redirect(admin_url("edit.php?post_type=vmb_reviews&page=settings&status=settings_saved_fetch"));
     exit();
@@ -101,44 +101,44 @@ if(isset($_POST['renew_reviews'])) {
             
             <div class="vmbreviews-form-input">
                 <label>Site ID</label>
-                <input type="text" name="site_id" required value="<?php echo isset($_POST['site_id']) ? $_POST['site_id'] : get_option('site_id'); ?>"/>
+                <input type="text" name="site_id" required value="<?php echo isset($_POST['site_id']) ? $_POST['site_id'] : get_site_option('site_id'); ?>"/>
             </div>
             <div class="vmbreviews-form-input">
                 <label>API Token</label>
-                <input type="password" name="api_token" required value="<?php echo isset($_POST['api_token']) ? $_POST['api_token'] : get_option('api_token'); ?>"/>
+                <input type="password" name="api_token" required value="<?php echo isset($_POST['api_token']) ? $_POST['api_token'] : get_site_option('api_token'); ?>"/>
             </div>
             <div class="vmbreviews-form-input">
                 <label>API Secret</label>
-                <input type="password" name="api_secret" required value="<?php echo isset($_POST['api_secret']) ? $_POST['api_secret'] : get_option('api_secret'); ?>"/>
+                <input type="password" name="api_secret" required value="<?php echo isset($_POST['api_secret']) ? $_POST['api_secret'] : get_site_option('api_secret'); ?>"/>
             </div>
 
             <h3 style="margin-top: 30px;">Reviews Settings</h3>
             <div class="vmbreviews-form-input">
                 <label>Reviews to fetch</label>
                 <span style="display: block!important; font-size: 12px; font-style: italic; margin-bottom: 5px;"><b>Note:</b> Fetching many reviews will cause long loading time. Recommended value is <b>25.</b></span>
-                <input type="number" name="reviews_to_fetch" min="1" max="30" required value="<?php echo isset($_POST['reviews_to_fetch']) ? $_POST['reviews_to_fetch'] : get_option('reviews_to_fetch'); ?>"/>
+                <input type="number" name="reviews_to_fetch" min="1" max="30" required value="<?php echo isset($_POST['reviews_to_fetch']) ? $_POST['reviews_to_fetch'] : get_site_option('reviews_to_fetch'); ?>"/>
             </div>
 
             <div class="vmbreviews-form-input">
                 <label>Minimum rating to fetch</label>
                 <span style="display: block!important; font-size: 12px; font-style: italic; margin-bottom: 5px;"><b>Note:</b> Fetching high rating reviews will cause long loading time. Recommended value is <b>3.</b></span>
-                <input type="number" name="rating_to_fetch" required min="1" max="5" value="<?php echo isset($_POST['rating_to_fetch']) ? $_POST['rating_to_fetch'] : get_option('rating_to_fetch'); ?>"/>
+                <input type="number" name="rating_to_fetch" required min="1" max="5" value="<?php echo isset($_POST['rating_to_fetch']) ? $_POST['rating_to_fetch'] : get_site_option('rating_to_fetch'); ?>"/>
             </div>
 
             <div class="vmbreviews-form-input">
                 <label>Auto-refresh and renew interval in hours:</label>
-                <input type="number" name="ref_ren_interval" required min="1" max="24" value="<?php echo isset($_POST['ref_ren_interval']) ? $_POST['ref_ren_interval'] : get_option('ref_ren_interval'); ?>"/>
+                <input type="number" name="ref_ren_interval" required min="1" max="24" value="<?php echo isset($_POST['ref_ren_interval']) ? $_POST['ref_ren_interval'] : get_site_option('ref_ren_interval'); ?>"/>
             </div>
 
             <h3 style="margin-top: 30px;">Shortcode Settings</h3>
             <div class="vmbreviews-form-input">
                 <label>Reviews to display</label>
-                <input type="number" name="reviews_to_display" required min="1" max="40" value="<?php echo isset($_POST['reviews_to_display']) ? $_POST['reviews_to_display'] : get_option('reviews_to_display'); ?>"/>
+                <input type="number" name="reviews_to_display" required min="1" max="40" value="<?php echo isset($_POST['reviews_to_display']) ? $_POST['reviews_to_display'] : get_site_option('reviews_to_display'); ?>"/>
             </div>
 
             <div class="vmbreviews-form-input">
                 <label>Number of columns</label>
-                <input type="number" name="column_count" required min="1" max="4" value="<?php echo isset($_POST['column_count']) ? $_POST['column_count'] : get_option('column_count'); ?>"/>
+                <input type="number" name="column_count" required min="1" max="4" value="<?php echo isset($_POST['column_count']) ? $_POST['column_count'] : get_site_option('column_count'); ?>"/>
             </div>
 
             <div class="vmbreviews-button-group">

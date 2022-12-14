@@ -84,7 +84,7 @@ if( !function_exists('_vmbreviews_total_count') ){
         $responseBody = wp_remote_retrieve_body( $response );
         $results = json_decode( $responseBody );
 
-        update_option('total_pages', $results->total_pages);
+        update_site_option('total_pages', $results->total_pages);
 
     }
 }
@@ -94,25 +94,25 @@ if( !function_exists('_vmbreviews_get_all_reviews') ){
 
     function _vmbreviews_get_all_reviews($page = 1, $reviews = 0){
         
-        $response = wp_remote_get(REQUEST_URL.'&page='.$page.'&resultsperpage='.(get_option('reviews_to_fetch') * 2), [ 'timeout' => 45 ]);
+        $response = wp_remote_get(REQUEST_URL.'&page='.$page.'&resultsperpage='.(get_site_option('reviews_to_fetch') * 2), [ 'timeout' => 45 ]);
         $responseBody = wp_remote_retrieve_body( $response );
 
         $results = json_decode( $responseBody );
 
-        update_option('total_pages', $results->total_pages);
+        update_site_option('total_pages', $results->total_pages);
 
         if($page <= $results->total_pages) {
 
           foreach($results->data as $result) {
 
             // skip if rating is above minimum rating to fetch or if comment is empty
-            if((($result->survey_data->{92}->answer) <= get_option('rating_to_fetch')) || ($result->survey_data->{92}->comments) == '') {
+            if((($result->survey_data->{92}->answer) <= get_site_option('rating_to_fetch')) || ($result->survey_data->{92}->comments) == '') {
   
               continue;
   
             } else {
               
-              if($reviews < get_option('reviews_to_fetch')) {
+              if($reviews < get_site_option('reviews_to_fetch')) {
   
                 $data['id'] = $result->id;
                 $data['firstName'] = $result->url_variables->firstname->value;
@@ -132,10 +132,10 @@ if( !function_exists('_vmbreviews_get_all_reviews') ){
         }
 
 
-        if($reviews < get_option('reviews_to_fetch')) {      
+        if($reviews < get_site_option('reviews_to_fetch')) {      
           _vmbreviews_get_all_reviews($page+1, $reviews);
         } else {
-          update_option('page', $page);
+          update_site_option('page', $page);
         }
 
     }
@@ -173,8 +173,8 @@ if(!function_exists('_vmbreviews_add_new_review')) {
 if(!function_exists('_save')) {
   function _save(){
 
-    $last_page = get_option('page');
-    $total_pages = get_option('total_pages');
+    $last_page = get_site_option('page');
+    $total_pages = get_site_option('total_pages');
     
     $current_year = date("Y");
     $current_month = date("m");;
@@ -188,29 +188,29 @@ if(!function_exists('_save')) {
     // show only reviews from current year
     $date_filter = 'filter[field][1]=date_submitted&filter[operator][1]=>=&filter[value][1]='.$past_three_month;
 
-    $site_id = isset($_POST['site_id']) ? $_POST['site_id'] : get_option('site_id');
-    $api_token = isset($_POST['api_token']) ? $_POST['api_token'] : get_option('api_token');
-    $api_secret = isset($_POST['api_secret']) ? $_POST['api_secret'] : get_option('api_secret');
+    $site_id = isset($_POST['site_id']) ? $_POST['site_id'] : get_site_option('site_id');
+    $api_token = isset($_POST['api_token']) ? $_POST['api_token'] : get_site_option('api_token');
+    $api_secret = isset($_POST['api_secret']) ? $_POST['api_secret'] : get_site_option('api_secret');
 
-    $reviews_to_fetch = isset($_POST['reviews_to_fetch']) ? $_POST['reviews_to_fetch'] : get_option('reviews_to_fetch');
-    $rating_to_fetch = isset($_POST['rating_to_fetch']) ? $_POST['rating_to_fetch'] : get_option('rating_to_fetch');
-    $ref_ren_interval = isset($_POST['ref_ren_interval']) ? $_POST['ref_ren_interval'] : get_option('ref_ren_interval');
+    $reviews_to_fetch = isset($_POST['reviews_to_fetch']) ? $_POST['reviews_to_fetch'] : get_site_option('reviews_to_fetch');
+    $rating_to_fetch = isset($_POST['rating_to_fetch']) ? $_POST['rating_to_fetch'] : get_site_option('rating_to_fetch');
+    $ref_ren_interval = isset($_POST['ref_ren_interval']) ? $_POST['ref_ren_interval'] : get_site_option('ref_ren_interval');
 
-    $column_count = isset($_POST['column_count']) ? $_POST['column_count'] : get_option('column_count');
-    $reviews_to_display = isset($_POST['reviews_to_display']) ? $_POST['reviews_to_display'] : get_option('reviews_to_display');
+    $column_count = isset($_POST['column_count']) ? $_POST['column_count'] : get_site_option('column_count');
+    $reviews_to_display = isset($_POST['reviews_to_display']) ? $_POST['reviews_to_display'] : get_site_option('reviews_to_display');
 
     define('REQUEST_URL', $api_base_request_URL.'api_token='.$api_token.'&api_token_secret='.$api_secret.'&'.$fixed_filter.'&'.$date_filter);
 
-    update_option('site_id', $site_id);
-    update_option('api_token', $api_token);
-    update_option('api_secret', $api_secret);
+    update_site_option('site_id', $site_id);
+    update_site_option('api_token', $api_token);
+    update_site_option('api_secret', $api_secret);
 
-    update_option('reviews_to_fetch', $reviews_to_fetch);
-    update_option('rating_to_fetch', $rating_to_fetch);
-    update_option('ref_ren_interval', $ref_ren_interval);
+    update_site_option('reviews_to_fetch', $reviews_to_fetch);
+    update_site_option('rating_to_fetch', $rating_to_fetch);
+    update_site_option('ref_ren_interval', $ref_ren_interval);
 
-    update_option('column_count', $column_count);
-    update_option('reviews_to_display', $reviews_to_display);
+    update_site_option('column_count', $column_count);
+    update_site_option('reviews_to_display', $reviews_to_display);
   }
 }
 
@@ -243,13 +243,13 @@ if(!function_exists('_renew_reviews')) {
 
 
 function _auto_refresh_reviews(){
-    $interval = get_option('ref_ren_interval');
-    $renewal_date = get_option('renewal_date') != '' ? date("Y-m-d H:i:s", strtotime('+'.$interval.' hours', strtotime(get_option('renewal_date')))) : get_option('renewal_date');
+    $interval = get_site_option('ref_ren_interval');
+    $renewal_date = get_site_option('renewal_date') != '' ? date("Y-m-d H:i:s", strtotime('+'.$interval.' hours', strtotime(get_site_option('renewal_date')))) : get_site_option('renewal_date');
     $now = date("Y-m-d H:i:s");
 
     if(strtotime($renewal_date) < strtotime($now)) {
       _renew_reviews();
-      _vmbreviews_get_all_reviews(get_option('page'), 0);
+      _vmbreviews_get_all_reviews(get_site_option('page'), 0);
     }
 }
 add_action('admin_init', '_auto_refresh_reviews');
