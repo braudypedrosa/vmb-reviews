@@ -1,0 +1,69 @@
+.reviews-avg {
+    text-align: center;
+}
+
+.reviews-avg h3 {
+    margin: 0px!important;
+    font-size: 26px;
+    line-height: 1em;
+    font-weight: bold;
+}
+
+
+i.fa-solid.fa-star {
+    color: #ffd714;
+}
+
+i.fa-solid.fa-star.disabled {
+    color: #b9b9b9;
+}
+
+.reviews-avg .avgStars {
+    margin-top: 10px!important;
+}
+
+.reviews-avg .avgStars span {
+    display: block;
+    font-size: 14px;
+}
+
+.vmb-reviews {
+    width: 100%!important;
+    max-width: 100%!important;
+}
+
+.vmb-reviews .reviews {
+    display: grid;
+    text-align: center;
+}
+
+.vmb-reviews.colc-2 .reviews {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.vmb-reviews.colc-3 .reviews {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.vmb-reviews.colc-4 .reviews {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.vmb-reviews .reviews h3.review-author {
+    font-size: 20px;
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.vmb-reviews .reviews .review-item {
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 30px;
+    padding: 60px 30px;
+    box-shadow: 0px 3px 14px rgb(0 0 0 / 16%);
+    font-style: italic;
+}
